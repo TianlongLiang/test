@@ -1,16 +1,5 @@
 name: GitHub Actions Demo
-on: 
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'  
-        required: false
-        type: boolean
-
+on: [workflow_dispatch]
 
 jobs:
   Explore-GitHub-Actions:
