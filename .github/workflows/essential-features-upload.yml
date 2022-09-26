@@ -1,7 +1,18 @@
 name: Greeting on variable day and upload artifact
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'  
+        required: false
+        type: boolean
+
+
 
 env:
   DAY_OF_WEEK: Monday
