@@ -1,0 +1,44 @@
+name: Reusable workflow with matrix strategy
+
+on:
+  # push:
+  #   branches:
+  #     - "main"
+  [workflow_dispatch]
+
+jobs:
+  ReuseableMatrixJobForDeployment:
+    strategy:
+      matrix:
+        target: [dev, stage, prod]
+    uses: octocat/octo-repo/.github/workflows/deployment.yml@main
+    with:
+      target: ${{ matrix.target }}
+# You can call multiple workflows, referencing each in a separate job.
+# jobs:
+#   call-workflow-1-in-local-repo:
+#     uses: octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89
+#   call-workflow-2-in-local-repo:
+#     uses: ./.github/workflows/workflow-2.yml
+#   call-workflow-in-another-repo:
+#     uses: octo-org/another-repo/.github/workflows/workflow.yml@v1
+
+# To pass named inputs to a called workflow, use the with keyword in a job.
+# Use the secrets keyword to pass named secrets.
+# For inputs, the data type of the input value must match the type specified in the called workflow (either boolean, number, or string).
+# jobs:
+#   call-workflow-passing-data:
+#     uses: octo-org/example-repo/.github/workflows/reusable-workflow.yml@main
+#     with:
+#       username: mona
+#     secrets:
+#       envPAT: ${{ secrets.envPAT }}
+
+# Workflows that call reusable workflows in the same organization or enterprise can use the inherit keyword to implicitly pass the secrets.
+# jobs:
+#   call-workflow-passing-data:
+#     uses: octo-org/example-repo/.github/workflows/reusable-workflow.yml@main
+#     with:
+#       username: mona
+#     secrets: inherit
+

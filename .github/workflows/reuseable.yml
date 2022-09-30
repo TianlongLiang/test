@@ -1,0 +1,51 @@
+# CALLED WORKFLOW
+# 1. You can connect up to four levels of workflows. 
+# 2. Reusable workflows stored within a private repository can only be used by workflows within the same repository.
+# 3. Any environment variables set in an env context defined at the workflow level in the caller workflow 
+#    are not propagated to the called workflow. 
+name: Reusable workflow example
+
+# In the reusable workflow, use the inputs and secrets keywords to define inputs or secrets that will be passed from a caller workflow.
+on:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+
+# In the reusable workflow, reference the input or secret that you defined in the on key in the previous step.
+jobs:
+  example_job:
+    name: Pass input and secrets to my-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octo-org/my-action@v1
+        with:
+          username: ${{ inputs.username }}
+          token: ${{ secrets.token }}
+
+# HOW TO USE IN CALLER
+# Pass the input or secret from the caller workflow.
+# To pass named inputs to a called workflow, use the with keyword in a job. 
+# Use the secrets keyword to pass named secrets. For inputs,
+# the data type of the input value must match the type specified in the called workflow (either boolean, number, or string).
+# jobs:
+#   call-workflow-passing-data:
+#     uses: octo-org/example-repo/.github/workflows/reusable-workflow.yml@main
+#     with:
+#       username: mona
+#     secrets:
+#       envPAT: ${{ secrets.envPAT }} # pass just this secret
+
+
+# Workflows that call reusable workflows in the same organization 
+# or enterprise can use the inherit keyword to implicitly pass the secrets.
+# jobs:
+#   call-workflow-passing-data:
+#     uses: octo-org/example-repo/.github/workflows/reusable-workflow.yml@main
+#     with:
+#       username: mona
+#     secrets: inherit # pass all secrets
