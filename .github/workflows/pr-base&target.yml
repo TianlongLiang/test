@@ -1,11 +1,12 @@
 name: PR test
 on:
   # will be triggered on PR events
-  pull_request:
+  pull_request_target:
     # open: pull request is created
     # edited: title, body, or the base branch of the PR is modified
     # synchronize: commit(s) pushed to the pull request
     # reopened: closed pull request is reopened
+    # closed: close pull request
     types: [opened, edited, synchronize, reopened, closed]
   # allow to be triggered manually
   workflow_dispatch:
